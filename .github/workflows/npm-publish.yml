@@ -6,8 +6,8 @@ name: Node.js Package
 on:
   workflow_dispatch:
   push:
-      branches:
-        - "**"
+    branches:
+      - "**"
   pull_request:
     branches:
       - "main"
@@ -23,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
+          cache: "yarn"
       - run: yarn
       - run: yarn build
       - uses: actions/upload-artifact@v3
@@ -39,6 +40,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
+          cache: "yarn"
       - uses: actions/download-artifact@v3
         with:
           name: dist
@@ -56,6 +58,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.x"
+          cache: "yarn"
           registry-url: https://registry.npmjs.org
           # Defaults to the user or organization that owns the workflow file
           scope: "@codrjs"
