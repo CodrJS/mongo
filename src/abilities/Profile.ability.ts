@@ -1,4 +1,3 @@
-// import { ProfileDocument } from "@/schemas/Profile";
 import { IProfile, Types } from "@codrjs/models";
 
 const permissions: Types.Permissions<IProfile> = {

@@ -1,4 +1,3 @@
-import { UserRoleEnum } from "@/../../models/dist/types/types";
 import { IUser, Types } from "@codrjs/models";
 
 const permissions: Types.Permissions<IUser> = {
@@ -7,16 +6,16 @@ const permissions: Types.Permissions<IUser> = {
    */
   "codr:system": (_user, { can, cannot }) => {
     can("manage", "User");
-    cannot("update", "User", { role: { $eq: UserRoleEnum.SYSTEM } });
-    cannot("delete", "User", { role: { $eq: UserRoleEnum.SYSTEM } });
+    cannot("update", "User", { role: { $eq: Types.UserRoleEnum.SYSTEM } });
+    cannot("delete", "User", { role: { $eq: Types.UserRoleEnum.SYSTEM } });
   },
   /**
    * @TODO find a way to disallow admin from creating system users.
    */
   "codr:admin": (_user, { can, cannot }) => {
     can("manage", "User");
-    cannot("update", "User", { role: { $eq: UserRoleEnum.SYSTEM } });
-    cannot("delete", "User", { role: { $eq: UserRoleEnum.SYSTEM } });
+    cannot("update", "User", { role: { $eq: Types.UserRoleEnum.SYSTEM } });
+    cannot("delete", "User", { role: { $eq: Types.UserRoleEnum.SYSTEM } });
   },
   "codr:researcher": (user, { can }) => {
     // can only read it's own user
