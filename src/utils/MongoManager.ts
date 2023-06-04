@@ -1,4 +1,4 @@
-import mongoose, { Connection, Types } from "mongoose";
+import mongoose, { Connection } from "mongoose";
 import Config from "@codrjs/config";
 import {
   DatabaseCoreConfig,
@@ -113,7 +113,9 @@ export default class MongoManager {
           AccessibleModel<ProfileDocument>
         >(
           "Profile",
-          createProfileModel(this._loadedUserModels.User as AccessibleModel<UserDocument>),
+          createProfileModel(
+            this._loadedUserModels.User as AccessibleModel<UserDocument>,
+          ),
         );
       } else {
         throw "Profile requires the User model to be loaded. Please add User to your database configuration.";
@@ -127,7 +129,9 @@ export default class MongoManager {
           AccessibleModel<SessionDocument>
         >(
           "Session",
-          createSessionModel(this._loadedUserModels.User as AccessibleModel<UserDocument>),
+          createSessionModel(
+            this._loadedUserModels.User as AccessibleModel<UserDocument>,
+          ),
         );
       } else {
         throw "Session requires the User model to be loaded. Please add User to your database configuration.";
@@ -141,7 +145,9 @@ export default class MongoManager {
           AccessibleModel<UserGroupDocument>
         >(
           "UserGroup",
-          createUserGroupModel(this._loadedUserModels.User as AccessibleModel<UserDocument>),
+          createUserGroupModel(
+            this._loadedUserModels.User as AccessibleModel<UserDocument>,
+          ),
         );
       } else {
         throw "UserGroup requires the User model to be loaded. Please add User to your database configuration.";
@@ -157,12 +163,3 @@ export default class MongoManager {
     return this._loadedUserModels;
   }
 }
-
-const db = new MongoManager();
-db.connect([
-  {
-    name: DatabaseEnum.USER,
-    models: [UserModelEnum.PROFILE, UserModelEnum.USER],
-  },
-]);
-db.User?.User?.findOne({ userId: new Types.ObjectId(0) }).populate("user");
