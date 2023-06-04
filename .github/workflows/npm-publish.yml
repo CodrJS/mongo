@@ -5,6 +5,12 @@ name: Node.js Package
 
 on:
   workflow_dispatch:
+  push:
+      branches:
+        - "**"
+  pull_request:
+    branches:
+      - "main"
   release:
     types: [created]
 
@@ -40,7 +46,8 @@ jobs:
       - run: yarn
       - run: yarn test
 
-  publish-gpr:
+  publish-npm:
+    if: github.event_name == 'release' && github.event.action == 'created'
     name: Publish to NPM
     needs: test
     runs-on: ubuntu-latest

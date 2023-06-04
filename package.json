@@ -1,11 +1,11 @@
 {
-  "name": "@codrjs/template",
+  "name": "@codrjs/mongo",
   "version": "1.0.0",
   "description": "",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
   "types": "./types/index.d.ts",
-  "repository": "git@github.com:CodrJS/ts-npm-template.git",
+  "repository": "git@github.com:CodrJS/mongo.git",
   "author": "Dylan Bulmer <dylan@dylanbulmer.com>",
   "license": "MIT",
   "type": "module",
@@ -46,5 +46,6 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
+    "@codrjs/models": "^1.0.10"
   }
 }
