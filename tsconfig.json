@@ -1,0 +1,4 @@
+{
+  // for VSCode
+  "extends": "./tsconfig.base.json"
+}
