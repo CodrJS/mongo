@@ -10,65 +10,69 @@ import { UserDocument } from "./User";
 
 export type UserGroupDocument = IUserGroup & AccessibleFieldsModel<IUserGroup>;
 
-export function createUserGroupModel(userModel: AccessibleModel<UserDocument>) {
-  const UserGroupSchema = new Schema<UserGroupDocument>(
-    {
-      createdBy: {
-        required: true,
-        index: true,
-        type: SchemaTypes.ObjectId,
-        ref: "User",
-      },
-      members: {
-        items: {
+export function createUserGroupModel(userModel?: AccessibleModel<UserDocument>) {
+  if (userModel) {
+    const UserGroupSchema = new Schema<UserGroupDocument>(
+      {
+        createdBy: {
+          required: true,
+          index: true,
           type: SchemaTypes.ObjectId,
           ref: "User",
         },
-      },
-      teams: {
-        items: {
-          type: SchemaTypes.ObjectId,
-          ref: "UserGroup",
+        members: {
+          items: {
+            type: SchemaTypes.ObjectId,
+            ref: "User",
+          },
         },
-      },
-      name: {
-        type: "String",
-        required: true,
-        index: true,
-        default: "Unnamed Group",
-      },
-      flags: {
-        type: {
-          isAnonymous: Boolean,
-          isDeleted: Boolean,
-          isJoinable: Boolean,
-          isPrivate: Boolean,
+        teams: {
+          items: {
+            type: SchemaTypes.ObjectId,
+            ref: "UserGroup",
+          },
         },
-        required: true,
-        default: {
-          isAnonymous: false,
-          isDeleted: false,
-          isJoinable: false,
-          isPrivate: false,
+        name: {
+          type: "String",
+          required: true,
+          index: true,
+          default: "Unnamed Group",
         },
+        flags: {
+          type: {
+            isAnonymous: Boolean,
+            isDeleted: Boolean,
+            isJoinable: Boolean,
+            isPrivate: Boolean,
+          },
+          required: true,
+          default: {
+            isAnonymous: false,
+            isDeleted: false,
+            isJoinable: false,
+            isPrivate: false,
+          },
+        },
+        createdAt: { type: String },
+        updatedAt: { type: String },
       },
-      createdAt: { type: String },
-      updatedAt: { type: String },
-    },
-    {
-      timestamps: true,
-    },
-  );
+      {
+        timestamps: true,
+      },
+    );
 
-  UserGroupSchema.virtual("user", {
-    ref: userModel,
-    localField: "userId",
-    foreignField: "_id",
-  });
+    UserGroupSchema.virtual("user", {
+      ref: userModel,
+      localField: "userId",
+      foreignField: "_id",
+    });
 
-  // exports UserGroup model.
-  UserGroupSchema.plugin(accessibleFieldsPlugin);
-  UserGroupSchema.plugin(accessibleRecordsPlugin);
+    // exports UserGroup model.
+    UserGroupSchema.plugin(accessibleFieldsPlugin);
+    UserGroupSchema.plugin(accessibleRecordsPlugin);
 
-  return UserGroupSchema;
+    return UserGroupSchema;
+  } else {
+    throw "User model is not defined.";
+  }
 }

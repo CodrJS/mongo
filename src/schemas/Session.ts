@@ -10,42 +10,46 @@ import { UserDocument } from "./User";
 
 export type SessionDocument = ISession & AccessibleFieldsModel<ISession>;
 
-export function createSessionModel(userModel: AccessibleModel<UserDocument>) {
-  const SessionSchema = new Schema<ISession>(
-    {
-      status: {
-        type: String,
-        enum: ["INITIATING", "ESTABLISHED", "CLOSED"],
-        required: true,
-        default: "INITIATING",
+export function createSessionModel(userModel?: AccessibleModel<UserDocument>) {
+  if (userModel) {
+    const SessionSchema = new Schema<ISession>(
+      {
+        status: {
+          type: String,
+          enum: ["INITIATING", "ESTABLISHED", "CLOSED"],
+          required: true,
+          default: "INITIATING",
+        },
+        userId: {
+          type: SchemaTypes.ObjectId,
+          required: true,
+          unique: false,
+          index: true,
+          ref: "User",
+        },
+        os: { type: String },
+        browser: { type: String },
+        ipAddress: { type: String },
+        createdAt: String,
+        updatedAt: String,
       },
-      userId: {
-        type: SchemaTypes.ObjectId,
-        required: true,
-        unique: false,
-        index: true,
-        ref: "User",
+      {
+        timestamps: true,
       },
-      os: { type: String },
-      browser: { type: String },
-      ipAddress: { type: String },
-      createdAt: String,
-      updatedAt: String,
-    },
-    {
-      timestamps: true,
-    },
-  );
+    );
 
-  SessionSchema.virtual("user", {
-    ref: userModel,
-    localField: "userId",
-    foreignField: "_id",
-  });
+    SessionSchema.virtual("user", {
+      ref: userModel,
+      localField: "userId",
+      foreignField: "_id",
+    });
 
-  // exports Session model.
-  SessionSchema.plugin(accessibleFieldsPlugin);
-  SessionSchema.plugin(accessibleRecordsPlugin);
+    // exports Session model.
+    SessionSchema.plugin(accessibleFieldsPlugin);
+    SessionSchema.plugin(accessibleRecordsPlugin);
 
-  return SessionSchema;
+    return SessionSchema;
+  } else {
+    throw "User model is not defined.";
+  }
 }
