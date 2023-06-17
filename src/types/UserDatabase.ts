@@ -1,36 +1,24 @@
 import { AccessibleModel } from "@casl/mongoose";
 import { DatabaseEnum } from "./Database";
-import {
-  ProfileDocument,
-  SessionDocument,
-  UserDocument,
-  UserGroupDocument,
-} from "@/schemas/Documents";
+import { IProfile, ISession, IUser, IUserGroup } from "@codrjs/models";
 
-export type UserModelType = "PROFILE" | "SESSION" | "USERGROUP" | "USER";
 export enum UserModelEnum {
   PROFILE = "Profile",
   SESSION = "Session",
   USERGROUP = "UserGroup",
   USER = "User",
 }
+export type UserModelType = keyof typeof UserModelEnum;
+export type UserModels = `${UserModelEnum}`;
 
 export interface DatabaseUserConfig {
   name: DatabaseEnum.USER;
-  models: UserModelEnum[];
+  models: UserModels[];
 }
 
-export interface ILoadedUserModels<T extends UserModelEnum | undefined> {
-  [UserModelEnum.PROFILE]: T extends UserModelEnum.PROFILE
-    ? AccessibleModel<ProfileDocument>
-    : undefined;
-  [UserModelEnum.SESSION]: T extends UserModelEnum.SESSION
-    ? AccessibleModel<SessionDocument>
-    : undefined;
-  [UserModelEnum.USERGROUP]: T extends UserModelEnum.USERGROUP
-    ? AccessibleModel<UserGroupDocument>
-    : undefined;
-  [UserModelEnum.USER]: T extends UserModelEnum.USER
-    ? AccessibleModel<UserDocument>
-    : undefined;
+export interface ILoadedUserModels<T extends UserModels> {
+  Profile: T extends "Profile" ? AccessibleModel<IProfile> : never;
+  Session: T extends "Session" ? AccessibleModel<ISession> : never;
+  UserGroup: T extends "UserGroup" ? AccessibleModel<IUserGroup> : never;
+  User: AccessibleModel<IUser>;
 }

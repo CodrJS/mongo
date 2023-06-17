@@ -4,7 +4,8 @@
 [![CodeQL](https://github.com/CodrJS/mongo/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/CodrJS/mongo/actions/workflows/codeql.yml)
 
 ## Purpose
-This module is for defining and linking all entities stoared in Mongo.
+
+This module is for defining and linking all entities stored in Mongo.
 
 ## Getting started
 
@@ -16,7 +17,14 @@ git clone git@github.com:CodrJS/mongo.git
 yarn install
 ```
 
+## Environment
+
+Necessary variables needed to run:
+
+| Env var     | Location    | Required | Description                                                               |
+| ----------- | ----------- | -------- | ------------------------------------------------------------------------- |
+| `MONGO_URI` | `mongo.uri` | `true`   | MongoDB - server URL, please include username and password to this string |
+
 ## TODO
 
 - [ ] .
-

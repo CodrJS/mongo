@@ -1,4 +1,4 @@
-import { ISession } from "@codrjs/models";
+import { ISession, IUser } from "@codrjs/models";
 import { Schema, SchemaTypes } from "mongoose";
 import {
   AccessibleFieldsModel,
@@ -6,50 +6,45 @@ import {
   accessibleFieldsPlugin,
   accessibleRecordsPlugin,
 } from "@casl/mongoose";
-import { UserDocument } from "./User";
 
 export type SessionDocument = ISession & AccessibleFieldsModel<ISession>;
 
-export function createSessionModel(userModel?: AccessibleModel<UserDocument>) {
-  if (userModel) {
-    const SessionSchema = new Schema<ISession>(
-      {
-        status: {
-          type: String,
-          enum: ["INITIATING", "ESTABLISHED", "CLOSED"],
-          required: true,
-          default: "INITIATING",
-        },
-        userId: {
-          type: SchemaTypes.ObjectId,
-          required: true,
-          unique: false,
-          index: true,
-          ref: "User",
-        },
-        os: { type: String },
-        browser: { type: String },
-        ipAddress: { type: String },
-        createdAt: String,
-        updatedAt: String,
+export function createSessionModel(userModel: AccessibleModel<IUser>) {
+  const SessionSchema = new Schema<ISession>(
+    {
+      status: {
+        type: String,
+        enum: ["INITIATING", "ESTABLISHED", "CLOSED"],
+        required: true,
+        default: "INITIATING",
       },
-      {
-        timestamps: true,
+      userId: {
+        type: SchemaTypes.ObjectId,
+        required: true,
+        unique: false,
+        index: true,
+        ref: "User",
       },
-    );
+      os: { type: String },
+      browser: { type: String },
+      ipAddress: { type: String },
+      createdAt: String,
+      updatedAt: String,
+    },
+    {
+      timestamps: true,
+    },
+  );
 
-    SessionSchema.virtual("user", {
-      ref: userModel,
-      localField: "userId",
-      foreignField: "_id",
-    });
+  SessionSchema.virtual("user", {
+    ref: userModel,
+    localField: "userId",
+    foreignField: "_id",
+  });
 
-    // exports Session model.
-    SessionSchema.plugin(accessibleFieldsPlugin);
-    SessionSchema.plugin(accessibleRecordsPlugin);
+  // exports Session model.
+  SessionSchema.plugin(accessibleFieldsPlugin);
+  SessionSchema.plugin(accessibleRecordsPlugin);
 
-    return SessionSchema;
-  } else {
-    throw "User model is not defined.";
-  }
+  return SessionSchema;
 }
