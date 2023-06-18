@@ -1,43 +1,42 @@
-import { createProfileModel } from "@/schemas/Profile";
-import { createSessionModel } from "@/schemas/Session";
-import UserSchema from "@/schemas/User";
-import { createUserGroupModel } from "@/schemas/UserGroup";
-import { UserModelEnum, UserModels } from "@/types";
+import { ProfileDocument, createProfileModel } from "@/schemas/Profile";
+import { SessionDocument, createSessionModel } from "@/schemas/Session";
+import UserSchema, { UserDocument } from "@/schemas/User";
+import { UserGroupDocument, createUserGroupModel } from "@/schemas/UserGroup";
+import { ILoadedUserModels, UserModelEnum, UserModels } from "@/types";
 import { AccessibleModel } from "@casl/mongoose";
-import { IProfile, ISession, IUser, IUserGroup } from "@codrjs/models";
-import mongoose from "mongoose";
+import type { Connection } from "mongoose";
 
 export default function userDatabaseSetup(
-  database: mongoose.Connection,
+  database: Connection,
   use: Record<UserModels, boolean>,
-  loaded: Record<UserModels, AccessibleModel<any>>,
+  loaded: ILoadedUserModels<UserModels>,
 ) {
   // add model only if needed.
   if (use.User) {
-    loaded.User = database.model<IUser, AccessibleModel<IUser>>(
+    loaded.User = database.model<UserDocument, AccessibleModel<UserDocument>>(
       UserModelEnum.USER,
       UserSchema,
     );
   }
 
   if (use.Profile) {
-    loaded.Profile = database.model<IProfile, AccessibleModel<IProfile>>(
-      UserModelEnum.PROFILE,
-      createProfileModel(loaded.User),
-    );
+    loaded.Profile = database.model<
+      ProfileDocument,
+      AccessibleModel<ProfileDocument>
+    >(UserModelEnum.PROFILE, createProfileModel(loaded.User));
   }
 
   if (use.Session) {
-    loaded.Session = database.model<ISession, AccessibleModel<ISession>>(
-      UserModelEnum.SESSION,
-      createSessionModel(loaded.User),
-    );
+    loaded.Session = database.model<
+      SessionDocument,
+      AccessibleModel<SessionDocument>
+    >(UserModelEnum.SESSION, createSessionModel(loaded.User));
   }
 
   if (use.UserGroup) {
     loaded.UserGroup = database.model<
-      IUserGroup,
-      AccessibleModel<IUserGroup>
+      UserGroupDocument,
+      AccessibleModel<UserGroupDocument>
     >(UserModelEnum.USERGROUP, createUserGroupModel(loaded.User));
   }
 }

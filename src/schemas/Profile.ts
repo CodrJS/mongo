@@ -1,4 +1,4 @@
-import { IProfile, IUser } from "@codrjs/models";
+import { IProfile } from "@codrjs/models";
 import { Schema, SchemaTypes } from "mongoose";
 import {
   AccessibleFieldsModel,
@@ -6,10 +6,11 @@ import {
   accessibleFieldsPlugin,
   accessibleRecordsPlugin,
 } from "@casl/mongoose";
+import { UserDocument } from "./User";
 
 export type ProfileDocument = IProfile & AccessibleFieldsModel<IProfile>;
 
-export function createProfileModel(userModel: AccessibleModel<IUser>) {
+export function createProfileModel(userModel: AccessibleModel<UserDocument>) {
   const ProfileSchema = new Schema<IProfile>(
     {
       avatarUrl: String,
@@ -34,6 +35,8 @@ export function createProfileModel(userModel: AccessibleModel<IUser>) {
         },
         required: true,
       },
+      createdAt: { type: Date },
+      updatedAt: { type: Date },
     },
     {
       timestamps: true,

@@ -1,6 +1,6 @@
-import { Types, IUserGroup } from "@codrjs/models";
+import { Types, IUserGroup, UserGroup } from "@codrjs/models";
 
-const permissions: Types.Permissions<IUserGroup> = {
+const permissions: Types.Permissions<IUserGroup, typeof UserGroup> = {
   "codr:system": (_user, { can }) => {
     can("manage", "UserGroup");
   },
@@ -20,5 +20,6 @@ const permissions: Types.Permissions<IUserGroup> = {
   },
 };
 
-const UserGroupAbility = (user: Types.JwtPayload) => Types.DefineAbility(user, permissions);
+const UserGroupAbility = (user: Types.JwtPayload) =>
+  Types.DefineAbility(user, permissions);
 export default UserGroupAbility;

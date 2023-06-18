@@ -1,5 +1,5 @@
 import { EmailRegex, IUser, Types } from "@codrjs/models";
-import { Schema } from "mongoose";
+import { Schema, SchemaTypes } from "mongoose";
 import {
   AccessibleFieldsModel,
   accessibleFieldsPlugin,
@@ -7,7 +7,7 @@ import {
 } from "@casl/mongoose";
 
 export type UserDocument = IUser & AccessibleFieldsModel<IUser>;
-const UserSchema = new Schema<UserDocument>(
+const UserSchema = new Schema<IUser>(
   {
     type: {
       type: String,
@@ -40,6 +40,18 @@ const UserSchema = new Schema<UserDocument>(
         isDisabled: false,
         isDeleted: false,
       },
+    },
+    createdAt: { type: Date },
+    updatedAt: { type: Date },
+    createdBy: {
+      type: SchemaTypes.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    updatedBy: {
+      type: SchemaTypes.ObjectId,
+      required: true,
+      ref: "User",
     },
   },
   {

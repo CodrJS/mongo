@@ -1,15 +1,13 @@
-import { IProfile, Types } from "@codrjs/models";
+import { IProfile, Profile, Types } from "@codrjs/models";
 
-const permissions: Types.Permissions<IProfile> = {
+const permissions: Types.Permissions<IProfile, typeof Profile> = {
   "codr:system": (_user, { can, cannot }) => {
     can("manage", "Profile");
-    cannot("update", "Profile", { username: { $eq: "System" } });
-    cannot("delete", "Profile", { username: { $eq: "System" } });
+    cannot("manipulate", "Profile", { username: { $eq: "System" } });
   },
   "codr:admin": (_user, { can, cannot }) => {
     can("manage", "Profile");
-    cannot("update", "Profile", { username: { $eq: "System" } });
-    cannot("delete", "Profile", { username: { $eq: "System" } });
+    cannot("manipulate", "Profile", { username: { $eq: "System" } });
   },
   "codr:researcher": (user, { can }) => {
     // can read all profiles and update it's own

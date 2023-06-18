@@ -1,4 +1,4 @@
-import { DatabaseEnum } from "./Database";
+import { DatabaseEnum } from ".";
 
 export enum ProjectModelEnum {
   ANNOTATION = "Annotation",

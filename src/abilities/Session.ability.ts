@@ -1,6 +1,6 @@
-import { Types, ISession } from "@codrjs/models";
+import { Types, ISession, Session } from "@codrjs/models";
 
-const permissions: Types.Permissions<ISession> = {
+const permissions: Types.Permissions<ISession, typeof Session> = {
   "codr:system": (_user, { can }) => {
     can("manage", "Session");
   },

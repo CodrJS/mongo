@@ -1,4 +1,4 @@
-import { ISession, IUser } from "@codrjs/models";
+import { ISession } from "@codrjs/models";
 import { Schema, SchemaTypes } from "mongoose";
 import {
   AccessibleFieldsModel,
@@ -6,10 +6,11 @@ import {
   accessibleFieldsPlugin,
   accessibleRecordsPlugin,
 } from "@casl/mongoose";
+import { UserDocument } from "./User";
 
 export type SessionDocument = ISession & AccessibleFieldsModel<ISession>;
 
-export function createSessionModel(userModel: AccessibleModel<IUser>) {
+export function createSessionModel(userModel: AccessibleModel<UserDocument>) {
   const SessionSchema = new Schema<ISession>(
     {
       status: {
@@ -28,8 +29,8 @@ export function createSessionModel(userModel: AccessibleModel<IUser>) {
       os: { type: String },
       browser: { type: String },
       ipAddress: { type: String },
-      createdAt: String,
-      updatedAt: String,
+      createdAt: { type: Date },
+      updatedAt: { type: Date },
     },
     {
       timestamps: true,

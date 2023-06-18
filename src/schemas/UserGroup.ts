@@ -1,4 +1,4 @@
-import { IUser, IUserGroup } from "@codrjs/models";
+import { IUserGroup } from "@codrjs/models";
 import { Schema, SchemaTypes } from "mongoose";
 import {
   AccessibleFieldsModel,
@@ -6,10 +6,11 @@ import {
   accessibleFieldsPlugin,
   accessibleRecordsPlugin,
 } from "@casl/mongoose";
+import { UserDocument } from "./User";
 
 export type UserGroupDocument = IUserGroup & AccessibleFieldsModel<IUserGroup>;
 
-export function createUserGroupModel(userModel: AccessibleModel<IUser>) {
+export function createUserGroupModel(userModel: AccessibleModel<UserDocument>) {
   const UserGroupSchema = new Schema<UserGroupDocument>(
     {
       createdBy: {
@@ -51,8 +52,8 @@ export function createUserGroupModel(userModel: AccessibleModel<IUser>) {
           isPrivate: false,
         },
       },
-      createdAt: { type: String },
-      updatedAt: { type: String },
+      createdAt: { type: Date },
+      updatedAt: { type: Date },
     },
     {
       timestamps: true,

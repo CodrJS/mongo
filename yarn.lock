@@ -318,13 +318,14 @@
   dependencies:
     dotenv "^16.0.3"
 
-"@codrjs/models@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@codrjs/models/-/models-1.0.11.tgz#c767ca96e72d25dd68c6588d0c712e3536daaa93"
-  integrity sha512-WFyS4Ahi1nKJyBXzBtqqwumu2I5SdTvegoy2ssDFeJIVoJwWvIIWd+HqBxXUCht9Uxm5pr+MI8V6lv1W/xWD8A==
+"@codrjs/models@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@codrjs/models/-/models-1.0.13.tgz#dc3c1a14718fef915ef5a70334fc03fa93c7568a"
+  integrity sha512-zfF6Igk/4Vusowk/crQ+5tUgKHo1Qf2X9dfX/bZBt/MbzKR9Iknp+sh1PTuQYiIgmOQQFWgiXA6/gsOVonjaOw==
   dependencies:
     "@casl/ability" "^6.3.3"
     "@codrjs/config" "^1.0.7"
+    "@ucast/mongo2js" "^1.3.4"
     uuid "^9.0.0"
 
 "@eslint-community/eslint-utils@^4.2.0":
@@ -1052,7 +1053,7 @@
   dependencies:
     "@ucast/core" "^1.0.0"
 
-"@ucast/mongo2js@^1.3.0":
+"@ucast/mongo2js@^1.3.0", "@ucast/mongo2js@^1.3.4":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@ucast/mongo2js/-/mongo2js-1.3.4.tgz#579f9e5eb074cba54640d5c70c71c500580f3af3"
   integrity sha512-ahazOr1HtelA5AC1KZ9x0UwPMqqimvfmtSm/PRRSeKKeE5G2SCqTgwiNzO7i9jS8zA3dzXpKVPpXMkcYLnyItA==

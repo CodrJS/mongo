@@ -8,6 +8,7 @@ import {
   DatabaseProjectConfig,
   DatabaseUserConfig,
   ILoadedUserModels,
+  MongooseConnectionEvent,
   NotificationModelEnum,
   ProjectModelEnum,
   UserModelEnum,
@@ -29,7 +30,8 @@ export default class MongoManager<
   P extends DatabaseProjectConfig,
   U extends DatabaseUserConfig,
 > {
-  private _mongoose: Connection;
+  private _config: (C | N | P | U)[];
+  private _mongoose!: Connection;
   private _coreDatabase?: Connection;
   private _notificationDatabase?: Connection;
   private _projectDatabase?: Connection;
@@ -38,13 +40,17 @@ export default class MongoManager<
   private _loadedUserModels: ILoadedUserModels<UnionType<U["models"]>>;
 
   constructor(configs: (C | N | P | U)[]) {
-    this._mongoose = mongoose.createConnection(Config.mongo.uri);
+    this._config = configs;
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     this._loadedUserModels = {};
+  }
 
-    for (const config of configs) {
+  connect() {
+    this._mongoose = mongoose.createConnection(Config.mongo.uri);
+
+    for (const config of this._config) {
       if (config) {
         switch (config.name) {
           case DatabaseEnum.CORE:
@@ -66,6 +72,12 @@ export default class MongoManager<
     if (typeof this._userDatabase === "undefined") {
       this._connectUserDatabase([UserModelEnum.USER]);
     }
+
+    return this._mongoose.asPromise();
+  }
+
+  close() {
+    return this._mongoose.close();
   }
 
   private _connectCoreDatabase(
@@ -132,6 +144,27 @@ export default class MongoManager<
   }
 
   get User() {
-    return this._loadedUserModels;
+    return {
+      ...this._loadedUserModels,
+      on: (event: MongooseConnectionEvent, listener: () => void) => {
+        this._on({ connection: this._userDatabase, event, listener });
+      },
+    };
+  }
+
+  private _on({
+    connection,
+    event,
+    listener,
+  }: {
+    connection?: Connection;
+    event: MongooseConnectionEvent;
+    listener: () => void;
+  }) {
+    if (connection) {
+      connection.on(event, listener);
+    } else {
+      throw "No mongoose connection was found.";
+    }
   }
 }
