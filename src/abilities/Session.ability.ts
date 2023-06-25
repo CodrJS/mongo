@@ -1,4 +1,5 @@
 import { Types, ISession, Session } from "@codrjs/models";
+import { ObjectId } from "@/utils";
 
 const permissions: Types.Permissions<ISession, typeof Session> = {
   "codr:system": (_user, { can }) => {
@@ -9,11 +10,13 @@ const permissions: Types.Permissions<ISession, typeof Session> = {
   },
   "codr:researcher": (user, { can }) => {
     // can create, read, and update all sessions user owns
-    can("edit", "Session", { userId: user._id });
+    can("create", "Session");
+    can("edit", "Session", { userId: new ObjectId(user.sub) });
   },
   "codr:annotator": (user, { can }) => {
     // can create, read, and update all sessions user owns
-    can("edit", "Session", { userId: user._id });
+    can("create", "Session");
+    can("edit", "Session", { userId: new ObjectId(user.sub) });
   },
 };
 

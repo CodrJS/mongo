@@ -8,7 +8,7 @@ import {
 } from "@casl/mongoose";
 import { UserDocument } from "./User";
 
-export type ProfileDocument = IProfile & AccessibleFieldsModel<IProfile>;
+export type ProfileDocument = IProfile & AccessibleFieldsModel<IProfile, object, object, { user: UserDocument }>;
 
 export function createProfileModel(userModel: AccessibleModel<UserDocument>) {
   const ProfileSchema = new Schema<IProfile>(
@@ -37,6 +37,16 @@ export function createProfileModel(userModel: AccessibleModel<UserDocument>) {
       },
       createdAt: { type: Date },
       updatedAt: { type: Date },
+      createdBy: {
+        type: SchemaTypes.ObjectId,
+        required: true,
+        ref: "User",
+      },
+      updatedBy: {
+        type: SchemaTypes.ObjectId,
+        required: true,
+        ref: "User",
+      },
     },
     {
       timestamps: true,

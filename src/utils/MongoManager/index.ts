@@ -47,8 +47,13 @@ export default class MongoManager<
     this._loadedUserModels = {};
   }
 
-  connect() {
+  connect(hook?: (connection: Connection) => void) {
     this._mongoose = mongoose.createConnection(Config.mongo.uri);
+
+    // used to hook in event listeners.
+    if (typeof hook === "function") {
+      hook(this._mongoose);
+    }
 
     for (const config of this._config) {
       if (config) {
@@ -149,6 +154,9 @@ export default class MongoManager<
       on: (event: MongooseConnectionEvent, listener: () => void) => {
         this._on({ connection: this._userDatabase, event, listener });
       },
+      connection: this._userDatabase as U extends DatabaseUserConfig
+        ? Connection
+        : never,
     };
   }
 
@@ -166,5 +174,9 @@ export default class MongoManager<
     } else {
       throw "No mongoose connection was found.";
     }
+  }
+
+  get connection() {
+    return this._mongoose;
   }
 }

@@ -1,5 +1,5 @@
 import { IUser, Types, User } from "@codrjs/models";
-import { Types as MongoTypes } from "mongoose";
+import { ObjectId } from "@/utils";
 
 const permissions: Types.Permissions<IUser, typeof User> = {
   /**
@@ -20,11 +20,11 @@ const permissions: Types.Permissions<IUser, typeof User> = {
   },
   "codr:researcher": (user, { can }) => {
     // can only read it's own user
-    can("read", "User", { _id: new MongoTypes.ObjectId(user.sub) });
+    can("read", "User", { _id: new ObjectId(user.sub) });
   },
   "codr:annotator": (user, { can }) => {
     // can only read it's own user
-    can("read", "User", { _id: new MongoTypes.ObjectId(user.sub) });
+    can("read", "User", { _id: new ObjectId(user.sub) });
   },
 };
 

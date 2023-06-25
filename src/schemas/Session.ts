@@ -31,6 +31,16 @@ export function createSessionModel(userModel: AccessibleModel<UserDocument>) {
       ipAddress: { type: String },
       createdAt: { type: Date },
       updatedAt: { type: Date },
+      createdBy: {
+        type: SchemaTypes.ObjectId,
+        required: true,
+        ref: "User",
+      },
+      updatedBy: {
+        type: SchemaTypes.ObjectId,
+        required: true,
+        ref: "User",
+      },
     },
     {
       timestamps: true,

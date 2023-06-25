@@ -13,12 +13,6 @@ export type UserGroupDocument = IUserGroup & AccessibleFieldsModel<IUserGroup>;
 export function createUserGroupModel(userModel: AccessibleModel<UserDocument>) {
   const UserGroupSchema = new Schema<UserGroupDocument>(
     {
-      createdBy: {
-        required: true,
-        index: true,
-        type: SchemaTypes.ObjectId,
-        ref: "User",
-      },
       members: {
         items: {
           type: SchemaTypes.ObjectId,
@@ -54,6 +48,16 @@ export function createUserGroupModel(userModel: AccessibleModel<UserDocument>) {
       },
       createdAt: { type: Date },
       updatedAt: { type: Date },
+      createdBy: {
+        type: SchemaTypes.ObjectId,
+        required: true,
+        ref: "User",
+      },
+      updatedBy: {
+        type: SchemaTypes.ObjectId,
+        required: true,
+        ref: "User",
+      },
     },
     {
       timestamps: true,
