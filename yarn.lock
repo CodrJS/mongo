@@ -318,10 +318,10 @@
   dependencies:
     dotenv "^16.0.3"
 
-"@codrjs/models@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@codrjs/models/-/models-1.0.13.tgz#dc3c1a14718fef915ef5a70334fc03fa93c7568a"
-  integrity sha512-zfF6Igk/4Vusowk/crQ+5tUgKHo1Qf2X9dfX/bZBt/MbzKR9Iknp+sh1PTuQYiIgmOQQFWgiXA6/gsOVonjaOw==
+"@codrjs/models@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@codrjs/models/-/models-1.0.15.tgz#c2571794557a4602188eca9f090a9009bfd10dc3"
+  integrity sha512-Na+Ch3GEUxeLW3BK3AXT2F98yc05OOww1DLaVvoPG2zHyRoZpheDtk+r0e+gDLqDncoDlhOos3JgC9zz6eOM+Q==
   dependencies:
     "@casl/ability" "^6.3.3"
     "@codrjs/config" "^1.0.7"

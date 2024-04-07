@@ -19,12 +19,6 @@ export function createUserGroupModel(userModel: AccessibleModel<UserDocument>) {
           ref: "User",
         },
       },
-      teams: {
-        items: {
-          type: SchemaTypes.ObjectId,
-          ref: "UserGroup",
-        },
-      },
       name: {
         type: "String",
         required: true,

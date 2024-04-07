@@ -22,12 +22,6 @@ const UserSchema = new Schema<IUser>(
       unique: true,
       index: true,
     },
-    role: {
-      type: String,
-      enum: Types.UserRoleEnum,
-      required: true,
-      default: Types.UserRoleEnum.ANNOTATOR,
-    },
     flags: {
       type: {
         isAnonymous: Boolean,
